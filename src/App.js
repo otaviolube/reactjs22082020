@@ -1,54 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
 
-import StudentsTable from './components/StudentTable';
-
 import './App.css';
 
-import reactLogo from './assets/img/reactLogo.png';
-
-//JSX - Javascript XML
-
-//Componentes
-//Props => Propriedades
-//Estados - Imutabilidade / Mutabilidade
+import api from './services/api';
 
 const App = () => {
 
-    const [students, setStudents] = useState([
-        { id: 0, name: 'otavio', email: 'otavio.lube@faesa.br', institution: 'FAESA' },
-        { id: 1, name: 'dimitri', email: 'dimitri@gmail.com', institution: 'ESTACIO' },
-        { id: 2, name: 'andreia', email: 'andrei@faesa.br', institution: 'FAESA' },
-    ])
-
-    function insertRamdonStudent(){
-        const randomNumber = Math.random()*100;
-        let newStudent = {
-            id: randomNumber,
-            name: `student${randomNumber}`,
-            email: `student${randomNumber}@gmail.com`,
-            institution: `institution${randomNumber}`
-        }
-
-        console.log('STUDENT CREATED', newStudent);
-
-        // students.push(newStudent);
-
-        setStudents([...students, newStudent]);
-
-    }
+    const [personagens, setPersonagens] = useState([]);
+    
+    useEffect(() => {
+        api.get('people').then(response => {
+            console.log(response.data.results);
+            setPersonagens(response.data.results);
+        });
+    }, [])
 
     return (
         <>
             <Header text="Mudança de conteúdo ... " />
 
-            <StudentsTable students={students}/>
-
-            <img src={reactLogo} />
-
-            <button type="button" onClick={insertRamdonStudent}>Inserir Aluno Aleatório</button>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Nome</td>
+                        <td>Altura</td>
+                        <td>Peso</td>
+                        <td>Cor do Cabelo</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {personagens.map((personagem, index) => {
+                        return (
+                            <tr key={index}>
+                                <td>{personagem.name}</td>
+                                <td>{personagem.height}</td>
+                                <td>{personagem.mass}</td>
+                                <td>{personagem.hair_color}</td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
 
             <Footer text="Meu rodapé personalizado ..." />
         </>

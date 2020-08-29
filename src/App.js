@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 
 import Header from './components/Header';
-import Footer from './components/Footer'
+import Footer from './components/Footer';
+
+import StudentsTable from './components/StudentTable';
+
+import './App.css';
+
+import reactLogo from './assets/img/reactLogo.png';
 
 //JSX - Javascript XML
 
 //Componentes
 //Props => Propriedades
 //Estados - Imutabilidade / Mutabilidade
-
 
 const App = () => {
 
@@ -39,26 +44,9 @@ const App = () => {
         <>
             <Header text="Mudança de conteúdo ... " />
 
-            <table>
-                <thead>
-                    <tr>
-                        <td>Nome</td>
-                        <td>Email</td>
-                        <td>Instituição</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {students.map(s => {
-                        return(
-                            <tr key={s.id}>
-                                <td>{s.name}</td>
-                                <td>{s.email}</td>
-                                <td>{s.institution}</td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
+            <StudentsTable students={students}/>
+
+            <img src={reactLogo} />
 
             <button type="button" onClick={insertRamdonStudent}>Inserir Aluno Aleatório</button>
 
